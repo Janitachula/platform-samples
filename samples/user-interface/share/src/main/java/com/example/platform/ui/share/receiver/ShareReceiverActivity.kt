@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package com.example.platform.ui.predictiveback
+package com.example.platform.ui.share.receiver
 
-import androidx.recyclerview.widget.RecyclerView
-import com.example.platform.ui.predictiveback.databinding.ListItemAnimationBinding
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import com.google.android.catalog.framework.annotations.Sample
 
-class PBHolder(
-    private val binding: ListItemAnimationBinding
-) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(animation: PBAnimation) {
-        binding.animationTitle.text = animation.title
-        binding.animationDescription.text = animation.description
+@Sample(
+    name = "Receive data shared by other apps",
+    description = "Receive texts and images from other apps.",
+)
+class ShareReceiverActivity : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent { ShareReceiver(intent) }
     }
 }

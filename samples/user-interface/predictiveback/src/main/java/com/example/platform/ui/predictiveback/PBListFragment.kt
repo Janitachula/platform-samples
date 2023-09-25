@@ -21,31 +21,50 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
 import com.example.platform.ui.predictiveback.databinding.FragmentAnimationListBinding
 
 class PBListFragment : Fragment() {
 
     private var _binding: FragmentAnimationListBinding? = null
-    private val binding
-        get() = checkNotNull(_binding){
-            "Cannot access binding in PBListFragment because it is null."
-        }
+    private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentAnimationListBinding.inflate(inflater, container, false)
-        binding.pbRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        val adapter = PBListAdapter(animations)
-        binding.pbRecyclerView.adapter = adapter
+        setAnimationText()
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.customCrossActivityCard.setOnClickListener {
+            findNavController().navigate(R.id.show_PBCustomCrossActivityAnimation)
+        }
+        binding.crossFragmentCard.setOnClickListener {
+            findNavController().navigate(R.id.show_PBNavigationComponentDefaultAnimations)
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setAnimationText() {
+        binding.sysUiTitle.text = animations[PBAnimation.SYS_UI]?.title ?: ""
+        binding.sysUiDescription.text = animations[PBAnimation.SYS_UI]?.description ?: ""
+        binding.backToHomeTitle.text = animations[PBAnimation.BACK_TO_HOME]?.title ?: ""
+        binding.backToHomeDescription.text = animations[PBAnimation.BACK_TO_HOME]?.description ?: ""
+        binding.crossActivityTitle.text = animations[PBAnimation.CROSS_ACTIVITY]?.title ?: ""
+        binding.crossActivityDescription.text = animations[PBAnimation.CROSS_ACTIVITY]?.description ?: ""
+        binding.customCrossActivityTitle.text = animations[PBAnimation.CUSTOM_CROSS_ACTIVITY]?.title ?: ""
+        binding.customCrossActivityDescription.text = animations[PBAnimation.CUSTOM_CROSS_ACTIVITY]?.description ?: ""
+        binding.crossFragmentTitle.text = animations[PBAnimation.CROSS_FRAGMENT]?.title ?: ""
+        binding.crossFragmentDescription.text = animations[PBAnimation.CROSS_FRAGMENT]?.description ?: ""
     }
 }
